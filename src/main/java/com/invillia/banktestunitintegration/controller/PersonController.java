@@ -56,7 +56,7 @@ public class PersonController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable final Long id,
+    public ResponseEntity update(@Valid @PathVariable final Long id,
                                  @Valid @RequestBody final PersonRequest personRequest) {
 
         Long idPerson = personService.update(id, personRequest);

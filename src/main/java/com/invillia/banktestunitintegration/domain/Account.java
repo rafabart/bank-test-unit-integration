@@ -31,7 +31,7 @@ public class Account extends IdAbstract<Long> {
     private AccountTipyEnum accountTipyEnum;
 
     @ToString.Exclude
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "id_person", nullable = false)
     private Person person;
 }

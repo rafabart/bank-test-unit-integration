@@ -3,7 +3,7 @@ package com.invillia.banktestunitintegration.service.impl;
 import com.invillia.banktestunitintegration.domain.Person;
 import com.invillia.banktestunitintegration.domain.request.PersonRequest;
 import com.invillia.banktestunitintegration.domain.response.PersonResponse;
-import com.invillia.banktestunitintegration.exception.GenericNotFoundException;
+import com.invillia.banktestunitintegration.exception.PersonNotFoundException;
 import com.invillia.banktestunitintegration.mapper.PersonMapper;
 import com.invillia.banktestunitintegration.repository.PersonRepository;
 import com.invillia.banktestunitintegration.service.PersonService;
@@ -46,8 +46,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
 
+    @Transactional(readOnly = true)
     public PersonResponse findById(final Long id) {
-        final Person person = personRepository.findById(id).orElseThrow(() -> new GenericNotFoundException(
+        final Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(
                 "Pessoa de ID " + id + " não encontrada!"));
 
         return personMapper.personToPersonResponse(person);
@@ -56,7 +57,7 @@ public class PersonServiceImpl implements PersonService {
 
     public Long update(final Long id, final PersonRequest personRequest) {
 
-        final Person person = personRepository.findById(id).orElseThrow(() -> new GenericNotFoundException(
+        final Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(
                 "Pessoa de ID " + id + " não encontrada!"));
 
         personMapper.updatePersonByPersonRequest(person, personRequest);
@@ -68,7 +69,7 @@ public class PersonServiceImpl implements PersonService {
 
 
     public void delete(final Long id) {
-        final Person person = personRepository.findById(id).orElseThrow(() -> new GenericNotFoundException(
+        final Person person = personRepository.findById(id).orElseThrow(() -> new PersonNotFoundException(
                 "Pessoa de ID " + id + " não encontrada!"));
 
         personRepository.delete(person);

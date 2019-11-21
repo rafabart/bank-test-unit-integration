@@ -22,7 +22,7 @@ public class AccountRequest {
     @NotBlank(message = "Número da conta não pode estar em branco!")
     private String numberAccount;
 
-    @Size(min = 6, max = 6, message = "Agencia deve ter 6 caractéres")
+    @Size(min = 4, max = 4, message = "Agencia deve ter 4 caractéres")
     @NotNull(message = "Agencia não pode ser nulo!")
     @NotBlank(message = "Agencia não pode estar em branco!")
     private String agency;

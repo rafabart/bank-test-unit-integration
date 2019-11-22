@@ -1,11 +1,17 @@
 package com.invillia.banktestunitintegration.service;
 
 import com.invillia.banktestunitintegration.domain.request.AccountRequest;
+import com.invillia.banktestunitintegration.domain.request.DepositRequest;
+import com.invillia.banktestunitintegration.domain.request.WithdrawRequest;
 import com.invillia.banktestunitintegration.domain.response.AccountResponse;
 
 import java.util.List;
 
 public interface AccountService {
+
+    public Long withdraw(WithdrawRequest withdrawRequest);
+
+    public Long deposit(DepositRequest depositRequest);
 
     public List<AccountResponse> find(final AccountRequest accountRequestFilter);
 

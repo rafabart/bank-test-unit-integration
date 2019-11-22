@@ -2,6 +2,8 @@ package com.invillia.banktestunitintegration.controller;
 
 
 import com.invillia.banktestunitintegration.domain.request.AccountRequest;
+import com.invillia.banktestunitintegration.domain.request.DepositRequest;
+import com.invillia.banktestunitintegration.domain.request.WithdrawRequest;
 import com.invillia.banktestunitintegration.domain.response.AccountResponse;
 import com.invillia.banktestunitintegration.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,30 @@ public class AccountController {
     @Autowired
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+
+    @PostMapping("/withdraw")
+    public ResponseEntity withdraw(@Valid @RequestBody final WithdrawRequest withdrawRequest) {
+        Long idAccount = accountService.withdraw(withdrawRequest);
+
+        final URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/accounts/{id}")
+                .build(idAccount);
+
+        return ResponseEntity.created(location).build();
+    }
+
+
+    @PostMapping("/deposit")
+    public ResponseEntity deposit(@Valid @RequestBody final DepositRequest depositRequest) {
+        Long idAccount = accountService.deposit(depositRequest);
+
+        final URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/accounts/{id}")
+                .build(idAccount);
+
+        return ResponseEntity.created(location).build();
     }
 
 

@@ -4,6 +4,7 @@ import com.invillia.banktestunitintegration.domain.enums.AccountTipyEnum;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.PositiveOrZero;
 
 
 @Data
@@ -23,6 +24,7 @@ public class Account extends IdAbstract<Long> {
     @Column(nullable = false, precision = 10, scale = 2, columnDefinition = "double default 0")
     private Double balance;
 
+    @PositiveOrZero(message = "Limite não pode ser negativo!")
     @Column(nullable = false, precision = 10, scale = 2, columnDefinition = "double default 0")
     private Double limitAccount;
 

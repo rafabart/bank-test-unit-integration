@@ -6,7 +6,7 @@ import com.invillia.banktestunitintegration.domain.Customer;
 import com.invillia.banktestunitintegration.repository.CustomerRepository;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class CustomerFactory extends JBacon<Customer> {
 
     private final CustomerRepository customerRepository;

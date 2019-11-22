@@ -5,7 +5,7 @@ import com.github.javafaker.Faker;
 import com.invillia.banktestunitintegration.domain.request.CustomerRequest;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class CustomerRequestFactory extends JBacon<CustomerRequest> {
 
     private final Faker faker;

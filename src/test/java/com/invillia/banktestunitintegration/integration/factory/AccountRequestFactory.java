@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-@Component
+
 public class AccountRequestFactory extends JBacon<AccountRequest> {
 
     private final Faker faker;

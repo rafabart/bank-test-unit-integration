@@ -41,11 +41,11 @@ public class AccountController {
 
     @PostMapping("/deposit")
     public ResponseEntity deposit(@Valid @RequestBody final DepositRequest depositRequest) {
-        Long idAccount = accountService.deposit(depositRequest);
+        AccountResponse accountResponse = accountService.deposit(depositRequest);
 
         final URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/accounts/{id}")
-                .build(idAccount);
+                .build(accountResponse.getId());
 
         return ResponseEntity.created(location).build();
     }

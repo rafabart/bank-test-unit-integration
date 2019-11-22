@@ -41,15 +41,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    public Long deposit(DepositRequest depositRequest) {
+    public AccountResponse deposit(DepositRequest depositRequest) {
         final Account account = accountRepository.findById(depositRequest.getIdAccount()).orElseThrow(() -> new AccountNotFoundException(
                 "Conta de ID " + depositRequest.getIdAccount() + " não encontrada!"));
 
         account.setBalance(account.getBalance() + depositRequest.getDeposit());
 
-        final Account accountSaved = accountRepository.save(account);
-
-        return accountSaved.getId();
+       return  accountMapper.accountToAccountResponse(accountRepository.save(account));
     }
 
 

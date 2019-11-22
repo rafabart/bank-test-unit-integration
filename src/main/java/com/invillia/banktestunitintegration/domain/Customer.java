@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Person extends IdAbstract<Long> {
+public class Customer extends IdAbstract<Long> {
 
     @Column(nullable = false, length = 14)
     private String cpf;
@@ -23,7 +23,7 @@ public class Person extends IdAbstract<Long> {
     private String name;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "customer")
     private List<Account> accounts;
 }
 

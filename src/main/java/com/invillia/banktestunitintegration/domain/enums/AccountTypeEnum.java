@@ -1,6 +1,6 @@
 package com.invillia.banktestunitintegration.domain.enums;
 
-public enum AccountTipyEnum {
+public enum AccountTypeEnum {
     SAVINGS,
     CHECKING
 }

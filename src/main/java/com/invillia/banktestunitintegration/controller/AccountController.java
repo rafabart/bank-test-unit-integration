@@ -57,18 +57,14 @@ public class AccountController {
             @RequestParam(value = "agency", required = false) String agency,
             @RequestParam(value = "balance", required = false) Double balance,
             @RequestParam(value = "limitAccount", required = false) Double limitAccount,
-            @RequestParam(value = "accountTipyString", required = false) String accountTipyString,
-            @RequestParam(value = "idPerson", required = false) Long idPerson,
-            @RequestParam(value = "id", required = false) Long id
+            @RequestParam(value = "accountTypeString", required = false) String accountTypeString
     ) {
         AccountRequest accountRequestFilter = new AccountRequest();
-        accountRequestFilter.setId(id);
         accountRequestFilter.setNumberAccount(numberAccount);
         accountRequestFilter.setAgency(agency);
         accountRequestFilter.setBalance(balance);
         accountRequestFilter.setLimitAccount(limitAccount);
-        accountRequestFilter.setAccountTipyString(accountTipyString);
-        accountRequestFilter.setIdPerson(idPerson);
+        accountRequestFilter.setAccountTypeString(accountTypeString);
 
         List<AccountResponse> accountResponseList = accountService.find(accountRequestFilter);
         return ResponseEntity.ok(accountResponseList);

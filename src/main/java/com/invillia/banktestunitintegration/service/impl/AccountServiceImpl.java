@@ -1,16 +1,17 @@
 package com.invillia.banktestunitintegration.service.impl;
 
 import com.invillia.banktestunitintegration.domain.Account;
-import com.invillia.banktestunitintegration.domain.enums.AccountTipyEnum;
+import com.invillia.banktestunitintegration.domain.Customer;
 import com.invillia.banktestunitintegration.domain.request.AccountRequest;
 import com.invillia.banktestunitintegration.domain.request.DepositRequest;
 import com.invillia.banktestunitintegration.domain.request.WithdrawRequest;
 import com.invillia.banktestunitintegration.domain.response.AccountResponse;
 import com.invillia.banktestunitintegration.exception.AccountLimitExceededException;
 import com.invillia.banktestunitintegration.exception.AccountNotFoundException;
+import com.invillia.banktestunitintegration.exception.CustomerNotFoundException;
 import com.invillia.banktestunitintegration.mapper.AccountMapper;
 import com.invillia.banktestunitintegration.repository.AccountRepository;
-import com.invillia.banktestunitintegration.repository.PersonRepository;
+import com.invillia.banktestunitintegration.repository.CustomerRepository;
 import com.invillia.banktestunitintegration.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -18,8 +19,8 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.WildcardType;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,15 +28,15 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
 
-    private final PersonRepository personRepository;
+    private final CustomerRepository customerRepository;
 
     private final AccountMapper accountMapper;
 
 
     @Autowired
-    public AccountServiceImpl(AccountRepository accountRepository, PersonRepository personRepository, AccountMapper accountMapper) {
+    public AccountServiceImpl(AccountRepository accountRepository, CustomerRepository customerRepository, AccountMapper accountMapper) {
         this.accountRepository = accountRepository;
-        this.personRepository = personRepository;
+        this.customerRepository = customerRepository;
         this.accountMapper = accountMapper;
     }
 
@@ -77,7 +78,6 @@ public class AccountServiceImpl implements AccountService {
                 ExampleMatcher.matching()
                         .withIgnoreCase()
                         .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING));
-
         final List<Account> accounts = accountRepository.findAll(exampleAccount);
 
         return accountMapper.accountToAccountResponse(accounts);
@@ -98,18 +98,10 @@ public class AccountServiceImpl implements AccountService {
         final Account account = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(
                 "Conta de ID " + id + " não encontrada!"));
 
-        accountRequest.setId(account.getId());
         accountMapper.updateAccountByAccountRequest(account, accountRequest);
 
-        if (accountRequest.getAccountTipyString().equals("SAVINGS") ||
-                accountRequest.getAccountTipyString().equals("CHECKING")) {
-            account.setAccountTipyEnum(AccountTipyEnum.valueOf(accountRequest.getAccountTipyString()));
-        } else {
-            throw new AccountNotFoundException("Tipo de conta não cadastrada");
-        }
-
-        account.setPerson(personRepository.findById(accountRequest.getIdPerson()).orElseThrow(
-                () -> new AccountNotFoundException("Pessoa de ID não encontrada!")));
+        account.setCustomer(customerRepository.findById(accountRequest.getIdCustomer()).orElseThrow(
+                () -> new CustomerNotFoundException("Pessoa de ID não encontrada!")));
 
         final Account accountSaved = accountRepository.save(account);
 
@@ -129,15 +121,8 @@ public class AccountServiceImpl implements AccountService {
 
         final Account account = accountMapper.accountRequestToAccount(accountRequest);
 
-        if (accountRequest.getAccountTipyString().equals("SAVINGS") ||
-                accountRequest.getAccountTipyString().equals("CHECKING")) {
-            account.setAccountTipyEnum(AccountTipyEnum.valueOf(accountRequest.getAccountTipyString()));
-        } else {
-            throw new AccountNotFoundException("Tipo de conta não cadastrada");
-        }
-
-        account.setPerson(personRepository.findById(accountRequest.getIdPerson()).orElseThrow(
-                () -> new AccountNotFoundException("Pessoa de ID não encontrada!")));
+        account.setCustomer(customerRepository.findById(accountRequest.getIdCustomer()).orElseThrow(
+                () -> new CustomerNotFoundException("Pessoa de ID não encontrada!")));
 
         final Account accountSaved = accountRepository.save(account);
 

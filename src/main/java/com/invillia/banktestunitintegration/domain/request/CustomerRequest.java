@@ -10,9 +10,7 @@ import javax.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PersonRequest {
-
-    private Long id;
+public class CustomerRequest {
 
     @NotNull(message = "Nome não pode ser nulo!")
     @NotBlank(message = "Nome não pode estar em branco!")

@@ -1,6 +1,6 @@
 package com.invillia.banktestunitintegration.domain;
 
-import com.invillia.banktestunitintegration.domain.enums.AccountTipyEnum;
+import com.invillia.banktestunitintegration.domain.enums.AccountTypeEnum;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,8 +10,8 @@ import javax.validation.constraints.PositiveOrZero;
 @Data
 @Entity
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Account extends IdAbstract<Long> {
 
@@ -30,10 +30,10 @@ public class Account extends IdAbstract<Long> {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private AccountTipyEnum accountTipyEnum;
+    private AccountTypeEnum accountTypeEnum;
 
-    @ToString.Exclude
     @ManyToOne
-    @JoinColumn(name = "id_person", nullable = false)
-    private Person person;
+    @ToString.Exclude
+    @JoinColumn(name = "id_customer", nullable = false)
+    private Customer customer;
 }

@@ -21,9 +21,9 @@ public class AccountResponse {
 
     private Double limitAccount;
 
-    private String accountTipyString;
+    private String accountTypeString;
 
-    private Long idPerson;
+    private Long idCustomer;
 
     private String createdAt;
 

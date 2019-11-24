@@ -1,4 +1,4 @@
-package com.invillia.banktestunitintegration.integration;
+package com.invillia.banktestunitintegration.integrationTest;
 
 import com.invillia.banktestunitintegration.domain.Account;
 import com.invillia.banktestunitintegration.domain.enums.AccountTypeEnum;
@@ -24,7 +24,7 @@ public class FindAccountIntegrationTest {
 
 
     @Test
-    void findAllWithSuccessTest() {
+    void shouldFindAllWithSuccessTest() {
 
         accountFactory.create(10);
 
@@ -41,7 +41,7 @@ public class FindAccountIntegrationTest {
 
 
     @Test
-    void findAllByNumberAccountWithSuccessTest() {
+    void shouldFindAllByNumberAccountWithSuccessTest() {
 
         accountFactory.create(10);
 
@@ -66,7 +66,7 @@ public class FindAccountIntegrationTest {
 
 
     @Test
-    void findAllByAgencyWithSuccessTest() {
+    void shouldFindAllByAgencyWithSuccessTest() {
 
         accountFactory.create(10);
 
@@ -91,7 +91,7 @@ public class FindAccountIntegrationTest {
 
 
     @Test
-    void findAllByBalanceWithSuccessTest() {
+    void shouldFindAllByBalanceWithSuccessTest() {
 
         accountFactory.create(10);
 
@@ -115,7 +115,7 @@ public class FindAccountIntegrationTest {
     }
 
     @Test
-    void findAllByLimitAccountWithSuccessTest() {
+    void shouldFindAllByLimitAccountWithSuccessTest() {
 
         accountFactory.create(10);
 
@@ -139,7 +139,7 @@ public class FindAccountIntegrationTest {
     }
 
     @Test
-    void findAllByAccountTypeEnumtWithSuccessTest() {
+    void shouldFindAllByAccountTypeEnumtWithSuccessTest() {
 
         accountFactory.create(10);
 
@@ -163,7 +163,7 @@ public class FindAccountIntegrationTest {
     }
 
     @Test
-    void findAllByCustomerIdWithSuccessTest() {
+    void shouldFindAllByCustomerIdWithSuccessTest() {
 
         accountFactory.create(10);
 

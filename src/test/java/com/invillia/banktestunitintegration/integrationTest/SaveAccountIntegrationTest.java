@@ -1,4 +1,4 @@
-package com.invillia.banktestunitintegration.integration;
+package com.invillia.banktestunitintegration.integrationTest;
 
 import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 
@@ -29,7 +29,7 @@ public class SaveAccountIntegrationTest {
     }
 
     @Test
-    public void createAccountWithSuccessTest() {
+    public void shouldcreateAccountWithSuccessTest() {
 
         final AccountRequest accountRequest = accountRequestFactory.build();
 

@@ -1,4 +1,4 @@
-package com.invillia.banktestunitintegration.integration;
+package com.invillia.banktestunitintegration.integrationTest;
 
 import com.invillia.banktestunitintegration.domain.Account;
 import com.invillia.banktestunitintegration.domain.request.DepositRequest;
@@ -31,7 +31,7 @@ public class DepositAccountIntegrationTest {
 
 
     @Test
-    void DepositInAccountWithIdCustomerNotFoundTest() {
+    void shouldDepositInAccountWithIdCustomerNotFoundTest() {
 
         final Account account = accountFactory.create();
 
@@ -52,7 +52,7 @@ public class DepositAccountIntegrationTest {
 
 
     @Test
-    void DepositInAccountWithSucessTest() {
+    void shouldDepositInAccountWithSucessTest() {
 
         final Account account = accountFactory.create();
 
@@ -79,7 +79,7 @@ public class DepositAccountIntegrationTest {
 
 
     @Test
-    void DepositInAccountWithoutNegativeNumber() {
+    void shouldDepositInAccountWithNegativeNumber() {
 
         Account account = accountFactory.create();
 

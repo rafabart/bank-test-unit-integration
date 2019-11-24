@@ -31,10 +31,10 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 
+	testImplementation 'com.h2database:h2'
 	testImplementation "br.com.leonardoferreira:JBacon:2.0.1"
 	testImplementation "io.rest-assured:rest-assured"
 	testImplementation "org.junit.jupiter:junit-jupiter"
-	testImplementation 'com.h2database:h2'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}

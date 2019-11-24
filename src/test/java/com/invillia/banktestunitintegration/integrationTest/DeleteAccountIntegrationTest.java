@@ -1,4 +1,4 @@
-package com.invillia.banktestunitintegration.integration;
+package com.invillia.banktestunitintegration.integrationTest;
 
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;

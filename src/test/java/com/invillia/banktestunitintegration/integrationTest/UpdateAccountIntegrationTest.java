@@ -1,4 +1,4 @@
-package com.invillia.banktestunitintegration.integration;
+package com.invillia.banktestunitintegration.integrationTest;
 
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 
@@ -32,7 +32,7 @@ public class UpdateAccountIntegrationTest {
     }
 
     @Test
-    public void updateAccountWithSuccessTest() {
+    public void shouldUpdateAccountWithSuccessTest() {
 
         accountFactory.create();
 

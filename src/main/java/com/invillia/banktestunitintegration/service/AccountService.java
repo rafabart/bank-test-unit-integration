@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface AccountService {
 
-    public Long withdraw(WithdrawRequest withdrawRequest);
+    public AccountResponse withdraw(WithdrawRequest withdrawRequest);
 
-    public Long deposit(DepositRequest depositRequest);
+    public AccountResponse deposit(DepositRequest depositRequest);
 
     public List<AccountResponse> find(final AccountRequest accountRequestFilter);
 

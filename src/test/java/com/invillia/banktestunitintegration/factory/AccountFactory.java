@@ -2,6 +2,7 @@ package com.invillia.banktestunitintegration.factory;
 
 import br.com.leonardoferreira.jbacon.JBacon;
 import com.invillia.banktestunitintegration.domain.Account;
+import com.invillia.banktestunitintegration.domain.Customer;
 import com.invillia.banktestunitintegration.domain.enums.AccountTypeEnum;
 import com.invillia.banktestunitintegration.repository.AccountRepository;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ public class AccountFactory extends JBacon<Account> {
         this.accountRepository = accountRepository;
         this.customerFactory = customerFactory;
     }
+
 
     @Override
     protected Account getDefault() {

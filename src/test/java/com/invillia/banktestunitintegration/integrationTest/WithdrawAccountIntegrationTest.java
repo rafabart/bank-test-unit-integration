@@ -1,4 +1,4 @@
-package com.invillia.banktestunitintegration.integration;
+package com.invillia.banktestunitintegration.integrationTest;
 
 
 import com.invillia.banktestunitintegration.domain.Account;
@@ -32,7 +32,7 @@ public class WithdrawAccountIntegrationTest {
 
 
     @Test
-    void WithdrawInAccountWithIdCustomerNotFoundTest() {
+    void shouldWithdrawInAccountWithIdCustomerNotFoundTest() {
 
         accountFactory.create();
 
@@ -54,7 +54,7 @@ public class WithdrawAccountIntegrationTest {
 
 
     @Test
-    void WithdrawInAccountWithSucessTest() {
+    void shouldithdrawInAccountWithSucessTest() {
 
         Account account = accountFactory.create();
 
@@ -81,7 +81,7 @@ public class WithdrawAccountIntegrationTest {
 
 
     @Test
-    void WithdrawInAccountWithoutLimitTest() {
+    void shouldWithdrawInAccountWithoutLimitTest() {
 
         Account account = accountFactory.create();
 
@@ -107,7 +107,7 @@ public class WithdrawAccountIntegrationTest {
 
 
     @Test
-    void WithdrawInAccountWithoutNegativeNumber() {
+    void shouldWithdrawInAccountWithNegativeNumber() {
 
         Account account = accountFactory.create();
 

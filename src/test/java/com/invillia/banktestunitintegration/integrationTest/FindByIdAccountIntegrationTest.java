@@ -1,4 +1,4 @@
-package com.invillia.banktestunitintegration.integration;
+package com.invillia.banktestunitintegration.integrationTest;
 
 import com.invillia.banktestunitintegration.domain.Account;
 import com.invillia.banktestunitintegration.factory.AccountFactory;
@@ -27,7 +27,7 @@ public class FindByIdAccountIntegrationTest {
 
 
     @Test
-    public void FindByIdAccountWithSuccessTest() {
+    public void shouldFindByIdAccountWithSuccessTest() {
 
         Account account = accountFactory.create();
 
@@ -51,7 +51,7 @@ public class FindByIdAccountIntegrationTest {
     }
 
     @Test
-    public void FindByIdNotFoundTest() {
+    public void shouldFindByIdNotFoundTest() {
 
         RestAssured
                 .given()

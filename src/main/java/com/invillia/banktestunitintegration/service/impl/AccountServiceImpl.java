@@ -8,6 +8,7 @@ import com.invillia.banktestunitintegration.domain.response.AccountResponse;
 import com.invillia.banktestunitintegration.exception.AccountLimitExceededException;
 import com.invillia.banktestunitintegration.exception.AccountNotFoundException;
 import com.invillia.banktestunitintegration.exception.CustomerNotFoundException;
+import com.invillia.banktestunitintegration.exception.NotPositiveNumberException;
 import com.invillia.banktestunitintegration.mapper.AccountMapper;
 import com.invillia.banktestunitintegration.repository.AccountRepository;
 import com.invillia.banktestunitintegration.repository.CustomerRepository;
@@ -39,32 +40,48 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    public Long deposit(DepositRequest depositRequest) {
-        final Account account = accountRepository.findById(depositRequest.getIdAccount()).orElseThrow(() -> new AccountNotFoundException(
-                "Conta de ID " + depositRequest.getIdAccount() + " não encontrada!"));
+    public AccountResponse deposit(DepositRequest depositRequest) {
 
-        account.setBalance(account.getBalance() + depositRequest.getDeposit());
+        if (depositRequest.getDeposit() > 00.00) {
 
-        final Account accountSaved = accountRepository.save(account);
+            final Account account = accountRepository.findById(depositRequest.getIdAccount()).orElseThrow(() -> new AccountNotFoundException(
+                    "Conta de ID " + depositRequest.getIdAccount() + " não encontrada!"));
 
-        return accountSaved.getId();
+            account.setBalance(account.getBalance() + depositRequest.getDeposit());
+
+            final Account accountSaved = accountRepository.save(account);
+
+            //Retorno usado no teste unitário
+            return accountMapper.accountToAccountResponse(accountSaved);
+
+        } else {
+            throw new NotPositiveNumberException("O Valor do deposito deve ser positivo!");
+        }
+
     }
 
 
-    public Long withdraw(WithdrawRequest withdrawRequest) {
-        final Account account = accountRepository.findById(withdrawRequest.getIdAccount()).orElseThrow(() -> new AccountNotFoundException(
-                "Conta de ID " + withdrawRequest.getIdAccount() + " não encontrada!"));
+    public AccountResponse withdraw(WithdrawRequest withdrawRequest) {
+        if (withdrawRequest.getWithdraw() > 00.00) {
 
-        if (!((account.getBalance() - withdrawRequest.getWithdraw()) < -1 * account.getLimitAccount())) {
-            account.setBalance(account.getBalance() - withdrawRequest.getWithdraw());
+            final Account account = accountRepository.findById(withdrawRequest.getIdAccount()).orElseThrow(() -> new AccountNotFoundException(
+                    "Conta de ID " + withdrawRequest.getIdAccount() + " não encontrada!"));
+
+            if (!((account.getBalance() - withdrawRequest.getWithdraw()) < -1 * account.getLimitAccount())) {
+                account.setBalance(account.getBalance() - withdrawRequest.getWithdraw());
+            } else {
+                throw new AccountLimitExceededException(
+                        "Limite de R$ " + account.getLimitAccount() + " excedido!");
+            }
+
+            final Account accountSaved = accountRepository.save(account);
+
+            //Retorno usado no teste unitário
+            return accountMapper.accountToAccountResponse(accountSaved);
+
         } else {
-            throw new AccountLimitExceededException(
-                    "Limite de R$ " + account.getLimitAccount() + " excedido!");
+            throw new NotPositiveNumberException("O Valor do saque deve ser positivo!");
         }
-
-        final Account accountSaved = accountRepository.save(account);
-
-        return accountSaved.getId();
     }
 
 

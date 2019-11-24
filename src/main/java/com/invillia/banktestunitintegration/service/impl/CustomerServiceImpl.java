@@ -5,6 +5,7 @@ import com.invillia.banktestunitintegration.domain.request.CustomerRequest;
 import com.invillia.banktestunitintegration.domain.response.CustomerResponse;
 import com.invillia.banktestunitintegration.exception.CustomerNotFoundException;
 import com.invillia.banktestunitintegration.mapper.CustomerMapper;
+import com.invillia.banktestunitintegration.repository.AccountRepository;
 import com.invillia.banktestunitintegration.repository.CustomerRepository;
 import com.invillia.banktestunitintegration.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
+    private final AccountRepository accountRepository;
+
     private final CustomerMapper customerMapper;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMapper customerMapper) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, AccountRepository accountRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
+        this.accountRepository = accountRepository;
         this.customerMapper = customerMapper;
     }
 
@@ -55,16 +59,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
-    public Long update(final Long id, final CustomerRequest customerRequest) {
+    public void update(final Long id, final CustomerRequest customerRequest) {
 
         final Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(
                 "Pessoa de ID " + id + " não encontrada!"));
 
         customerMapper.updateCustomerByCustomerRequest(customer, customerRequest);
 
-        final Customer customerSaved = customerRepository.save(customer);
-
-        return customerSaved.getId();
+        customerRepository.save(customer);
     }
 
 

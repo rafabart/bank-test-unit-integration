@@ -8,12 +8,12 @@ import javax.sql.DataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.TestExecutionListener;
 
 public class CleanDatabaseTestExecutionListener implements TestExecutionListener {
+
     private Logger log = LoggerFactory.getLogger(CleanDatabaseTestExecutionListener.class);
 
     @Override
@@ -65,4 +65,5 @@ public class CleanDatabaseTestExecutionListener implements TestExecutionListener
     private interface QueryConsumer {
         void accept(ResultSet rs) throws SQLException;
     }
+
 }

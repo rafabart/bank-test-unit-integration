@@ -1,7 +1,6 @@
 package com.invillia.banktestunitintegration.service.impl;
 
 import com.invillia.banktestunitintegration.domain.Account;
-import com.invillia.banktestunitintegration.domain.Customer;
 import com.invillia.banktestunitintegration.domain.request.AccountRequest;
 import com.invillia.banktestunitintegration.domain.request.DepositRequest;
 import com.invillia.banktestunitintegration.domain.request.WithdrawRequest;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -41,13 +39,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    public AccountResponse deposit(DepositRequest depositRequest) {
+    public Long deposit(DepositRequest depositRequest) {
         final Account account = accountRepository.findById(depositRequest.getIdAccount()).orElseThrow(() -> new AccountNotFoundException(
                 "Conta de ID " + depositRequest.getIdAccount() + " não encontrada!"));
 
         account.setBalance(account.getBalance() + depositRequest.getDeposit());
 
-       return  accountMapper.accountToAccountResponse(accountRepository.save(account));
+        final Account accountSaved = accountRepository.save(account);
+
+        return accountSaved.getId();
     }
 
 
@@ -61,6 +61,7 @@ public class AccountServiceImpl implements AccountService {
             throw new AccountLimitExceededException(
                     "Limite de R$ " + account.getLimitAccount() + " excedido!");
         }
+
         final Account accountSaved = accountRepository.save(account);
 
         return accountSaved.getId();
@@ -91,7 +92,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    public Long update(final Long id, final AccountRequest accountRequest) {
+    public void update(final Long id, final AccountRequest accountRequest) {
 
         final Account account = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(
                 "Conta de ID " + id + " não encontrada!"));
@@ -101,9 +102,7 @@ public class AccountServiceImpl implements AccountService {
         account.setCustomer(customerRepository.findById(accountRequest.getIdCustomer()).orElseThrow(
                 () -> new CustomerNotFoundException("Pessoa de ID não encontrada!")));
 
-        final Account accountSaved = accountRepository.save(account);
-
-        return accountSaved.getId();
+        accountRepository.save(account);
     }
 
 

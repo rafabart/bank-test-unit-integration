@@ -1,9 +1,9 @@
 package com.invillia.banktestunitintegration.domain.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.invillia.banktestunitintegration.domain.Account;
+import lombok.*;
+
+import java.util.List;
 
 
 @Data
@@ -17,6 +17,9 @@ public class CustomerResponse {
     private String cpf;
 
     private String name;
+
+//    @ToString.Exclude
+//    private List<Account> accounts;
 
     private String createdAt;
 

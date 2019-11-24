@@ -1,6 +1,7 @@
 package com.invillia.banktestunitintegration.mapper;
 
 import com.invillia.banktestunitintegration.domain.Account;
+import com.invillia.banktestunitintegration.domain.Customer;
 import com.invillia.banktestunitintegration.domain.enums.AccountTypeEnum;
 import com.invillia.banktestunitintegration.domain.request.AccountRequest;
 import com.invillia.banktestunitintegration.domain.response.AccountResponse;
@@ -25,7 +26,10 @@ public class AccountMapper {
                 .balance(account.getBalance())
                 .limitAccount(account.getLimitAccount())
                 .accountTypeString(account.getAccountTypeEnum().toString())
-                .idCustomer(account.getCustomer().getId())
+//
+//                .customer(account.getCustomer())
+                .IdCustomer(account.getCustomer().getId())
+
                 .createdAt(account.getCreatedAt().format(formatter))
                 .updatedAt(account.getUpdatedAt().format(formatter))
                 .build();
@@ -41,11 +45,19 @@ public class AccountMapper {
     public Account accountRequestToAccount(final AccountRequest accountRequest) {
 
         Account account = new Account();
+
         account.setNumberAccount(accountRequest.getNumberAccount());
         account.setAgency(accountRequest.getAgency());
         account.setBalance(accountRequest.getBalance());
         account.setLimitAccount(accountRequest.getLimitAccount());
-        if (!accountRequest.getAccountTypeString().isEmpty()) {
+
+        if (accountRequest.getIdCustomer() != null) {
+            Customer customer = new Customer();
+            customer.setId(accountRequest.getIdCustomer());
+            account.setCustomer(customer);
+        }
+
+        if (accountRequest.getAccountTypeString() != null && !accountRequest.getAccountTypeString().isBlank()) {
             try {
                 account.setAccountTypeEnum(AccountTypeEnum.valueOf(accountRequest.getAccountTypeString()));
             } catch (Exception e) {
@@ -54,6 +66,7 @@ public class AccountMapper {
         }
         return account;
     }
+
 
     public void updateAccountByAccountRequest(final Account account, final AccountRequest accountRequest) {
 

@@ -12,4 +12,5 @@ public class RestAssuredTestExecutionListener implements TestExecutionListener {
                 .getEnvironment()
                 .getProperty("local.server.port", Integer.class, 8080);
     }
+
 }

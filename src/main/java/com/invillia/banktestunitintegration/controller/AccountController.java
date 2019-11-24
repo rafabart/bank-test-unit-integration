@@ -29,25 +29,17 @@ public class AccountController {
 
     @PostMapping("/withdraw")
     public ResponseEntity withdraw(@Valid @RequestBody final WithdrawRequest withdrawRequest) {
-        Long idAccount = accountService.withdraw(withdrawRequest);
 
-        final URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/accounts/{id}")
-                .build(idAccount);
-
-        return ResponseEntity.created(location).build();
+        accountService.withdraw(withdrawRequest);
+        return ResponseEntity.ok().build();
     }
 
 
     @PostMapping("/deposit")
     public ResponseEntity deposit(@Valid @RequestBody final DepositRequest depositRequest) {
-        AccountResponse accountResponse = accountService.deposit(depositRequest);
 
-        final URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/accounts/{id}")
-                .build(accountResponse.getId());
-
-        return ResponseEntity.created(location).build();
+        accountService.deposit(depositRequest);
+        return ResponseEntity.ok().build();
     }
 
 
@@ -57,7 +49,8 @@ public class AccountController {
             @RequestParam(value = "agency", required = false) String agency,
             @RequestParam(value = "balance", required = false) Double balance,
             @RequestParam(value = "limitAccount", required = false) Double limitAccount,
-            @RequestParam(value = "accountTypeString", required = false) String accountTypeString
+            @RequestParam(value = "accountTypeString", required = false) String accountTypeString,
+            @RequestParam(value = "idCustomer", required = false) Long idCustomer
     ) {
         AccountRequest accountRequestFilter = new AccountRequest();
         accountRequestFilter.setNumberAccount(numberAccount);
@@ -65,6 +58,7 @@ public class AccountController {
         accountRequestFilter.setBalance(balance);
         accountRequestFilter.setLimitAccount(limitAccount);
         accountRequestFilter.setAccountTypeString(accountTypeString);
+        accountRequestFilter.setIdCustomer(idCustomer);
 
         List<AccountResponse> accountResponseList = accountService.find(accountRequestFilter);
         return ResponseEntity.ok(accountResponseList);
@@ -89,13 +83,8 @@ public class AccountController {
     public ResponseEntity update(@Valid @PathVariable final Long id,
                                  @Valid @RequestBody final AccountRequest accountRequest) {
 
-        Long idAccount = accountService.update(id, accountRequest);
-
-        final URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/accounts/{id}")
-                .build(idAccount);
-
-        return ResponseEntity.created(location).build();
+        accountService.update(id, accountRequest);
+        return ResponseEntity.noContent().build();
     }
 
 

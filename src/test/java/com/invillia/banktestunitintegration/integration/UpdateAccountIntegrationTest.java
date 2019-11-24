@@ -1,35 +1,40 @@
 package com.invillia.banktestunitintegration.integration;
 
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
+import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 
+import com.invillia.banktestunitintegration.factory.AccountFactory;
+import org.springframework.boot.test.context.SpringBootTest;
 import com.invillia.banktestunitintegration.domain.Account;
-
 import com.invillia.banktestunitintegration.domain.request.AccountRequest;
 import com.invillia.banktestunitintegration.factory.AccountRequestFactory;
 import com.invillia.banktestunitintegration.repository.AccountRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SaveAccountIntegrationTest {
+public class UpdateAccountIntegrationTest {
+
+    private final AccountFactory accountFactory;
 
     private final AccountRepository accountRepository;
 
     private final AccountRequestFactory accountRequestFactory;
 
     @Autowired
-    public SaveAccountIntegrationTest(AccountRepository accountRepository, AccountRequestFactory accountRequestFactory) {
+    public UpdateAccountIntegrationTest(AccountFactory accountFactory, AccountRepository accountRepository, AccountRequestFactory accountRequestFactory) {
+        this.accountFactory = accountFactory;
         this.accountRepository = accountRepository;
         this.accountRequestFactory = accountRequestFactory;
     }
 
     @Test
-    public void createAccountWithSuccessTest() {
+    public void updateAccountWithSuccessTest() {
+
+        accountFactory.create();
 
         final AccountRequest accountRequest = accountRequestFactory.build();
 
@@ -39,11 +44,10 @@ public class SaveAccountIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body(accountRequest)
                 .when()
-                .post("/accounts")
+                .put("/accounts/1")
                 .then()
                 .log().all()
-                .statusCode(SC_CREATED)
-                .header("Location", Matchers.endsWith("/accounts/1"));
+                .statusCode(SC_NO_CONTENT);
 
         Assertions.assertEquals(1, accountRepository.count());
 

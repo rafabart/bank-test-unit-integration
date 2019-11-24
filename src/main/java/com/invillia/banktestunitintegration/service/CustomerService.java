@@ -11,7 +11,7 @@ public interface CustomerService {
 
     public CustomerResponse findById(final Long id);
 
-    public Long update(final Long id, final CustomerRequest customerRequest);
+    public void update(final Long id, final CustomerRequest customerRequest);
 
     public void delete(final Long id);
 

@@ -57,13 +57,8 @@ public class CustomerController {
     public ResponseEntity update(@Valid @PathVariable final Long id,
                                  @Valid @RequestBody final CustomerRequest customerRequest) {
 
-        Long idCustomer = customerService.update(id, customerRequest);
-
-        final URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/customers/{id}")
-                .build(idCustomer);
-
-        return ResponseEntity.created(location).build();
+        customerService.update(id, customerRequest);
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -2,9 +2,7 @@ package com.invillia.banktestunitintegration.domain;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class Customer extends IdAbstract<Long> {
     private String name;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Account> accounts;
 }
 

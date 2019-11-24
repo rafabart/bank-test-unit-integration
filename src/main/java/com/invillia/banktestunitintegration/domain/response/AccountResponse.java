@@ -1,9 +1,7 @@
 package com.invillia.banktestunitintegration.domain.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.invillia.banktestunitintegration.domain.Customer;
+import lombok.*;
 
 @Data
 @Builder
@@ -23,7 +21,10 @@ public class AccountResponse {
 
     private String accountTypeString;
 
-    private Long idCustomer;
+//    @ToString.Exclude
+//    private Customer customer;
+
+    private Long IdCustomer;
 
     private String createdAt;
 

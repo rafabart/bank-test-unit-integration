@@ -9,7 +9,6 @@ import javax.validation.constraints.PositiveOrZero;
 
 @Data
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
@@ -21,11 +20,11 @@ public class Account extends IdAbstract<Long> {
     @Column(nullable = false, length = 4)
     private String agency;
 
-    @Column(nullable = false, precision = 10, scale = 2, columnDefinition = "double default 0")
+    @Column(nullable = false, precision = 10, scale = 2, columnDefinition = "double default 0.00")
     private Double balance;
 
     @PositiveOrZero(message = "Limite não pode ser negativo!")
-    @Column(nullable = false, precision = 10, scale = 2, columnDefinition = "double default 0")
+    @Column(nullable = false, precision = 10, scale = 2, columnDefinition = "double default 0.00")
     private Double limitAccount;
 
     @Column(nullable = false)

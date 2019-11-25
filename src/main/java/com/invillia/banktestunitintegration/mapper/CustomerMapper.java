@@ -20,7 +20,7 @@ public class CustomerMapper {
                 .id(customer.getId())
                 .cpf(customer.getCpf())
                 .name(customer.getName())
-//                .accounts(customer.getAccounts())
+                .accounts(customer.getAccounts())
                 .createdAt(customer.getCreatedAt().format(formatter))
                 .updatedAt(customer.getUpdatedAt().format(formatter))
                 .build();

@@ -1,5 +1,6 @@
 package com.invillia.banktestunitintegration.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.invillia.banktestunitintegration.domain.enums.AccountTypeEnum;
 import lombok.*;
 
@@ -32,6 +33,7 @@ public class Account extends IdAbstract<Long> {
     private AccountTypeEnum accountTypeEnum;
 
     @ManyToOne
+    @JsonIgnore
     @ToString.Exclude
     @JoinColumn(name = "id_customer", nullable = false)
     private Customer customer;

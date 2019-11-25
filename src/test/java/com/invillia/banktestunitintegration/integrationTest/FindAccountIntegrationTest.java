@@ -167,7 +167,7 @@ public class FindAccountIntegrationTest {
 
         accountFactory.create(10);
 
-        int idCustomer = 1;
+        final int idCustomer = 1;
 
         RestAssured
                 .given()
@@ -180,6 +180,6 @@ public class FindAccountIntegrationTest {
                 .log().all()
                 .statusCode(SC_OK)
                 .body("$", Matchers.hasSize(1))
-                .body("idCustomer[0]", Matchers.is(idCustomer));
+                .body("customer[0].id", Matchers.is(idCustomer));
     }
 }

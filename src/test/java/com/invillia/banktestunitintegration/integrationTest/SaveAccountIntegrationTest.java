@@ -1,9 +1,6 @@
 package com.invillia.banktestunitintegration.integrationTest;
 
-import static javax.servlet.http.HttpServletResponse.SC_CREATED;
-
 import com.invillia.banktestunitintegration.domain.Account;
-
 import com.invillia.banktestunitintegration.domain.request.AccountRequest;
 import com.invillia.banktestunitintegration.factory.AccountRequestFactory;
 import com.invillia.banktestunitintegration.repository.AccountRepository;
@@ -14,6 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SaveAccountIntegrationTest {

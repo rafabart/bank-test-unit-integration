@@ -1,7 +1,5 @@
 package com.invillia.banktestunitintegration.integrationTest;
 
-import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
-
 import com.invillia.banktestunitintegration.factory.AccountFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.invillia.banktestunitintegration.domain.Account;
@@ -14,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UpdateAccountIntegrationTest {

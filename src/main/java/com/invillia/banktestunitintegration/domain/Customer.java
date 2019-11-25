@@ -1,5 +1,6 @@
 package com.invillia.banktestunitintegration.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Customer extends IdAbstract<Long> {
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
     @ToString.Exclude
     @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Account> accounts;

@@ -81,7 +81,7 @@ public class DepositAccountIntegrationTest {
     @Test
     void shouldDepositInAccountWithNegativeNumber() {
 
-        Account account = accountFactory.create();
+        final Account account = accountFactory.create();
 
         final DepositRequest depositRequest = new DepositRequest(-2000.00, 1L);
 

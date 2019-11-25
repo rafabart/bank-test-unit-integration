@@ -1,8 +1,5 @@
 package com.invillia.banktestunitintegration.integrationTest;
 
-import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-
 import com.invillia.banktestunitintegration.factory.AccountFactory;
 import com.invillia.banktestunitintegration.repository.AccountRepository;
 import io.restassured.RestAssured;
@@ -11,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class DeleteAccountIntegrationTest {

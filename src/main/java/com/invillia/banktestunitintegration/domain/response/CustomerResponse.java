@@ -18,8 +18,7 @@ public class CustomerResponse {
 
     private String name;
 
-//    @ToString.Exclude
-//    private List<Account> accounts;
+    private List<Account> accounts;
 
     private String createdAt;
 

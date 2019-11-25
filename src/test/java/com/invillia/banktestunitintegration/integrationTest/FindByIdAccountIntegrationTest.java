@@ -29,7 +29,7 @@ public class FindByIdAccountIntegrationTest {
     @Test
     public void shouldFindByIdAccountWithSuccessTest() {
 
-        Account account = accountFactory.create();
+        final Account account = accountFactory.create();
 
         RestAssured
                 .given()
@@ -45,7 +45,7 @@ public class FindByIdAccountIntegrationTest {
                 .body("balance", Matchers.is(account.getBalance().floatValue()))
                 .body("limitAccount", Matchers.is(account.getLimitAccount().floatValue()))
                 .body("accountTypeString", Matchers.is(account.getAccountTypeEnum().toString()))
-                .body("idCustomer", Matchers.is(account.getCustomer().getId().intValue()))
+                .body("customer.id", Matchers.is(account.getCustomer().getId().intValue()))
                 .body("createdAt", Matchers.is(account.getCreatedAt().format(FORMATTER)))
                 .body("updatedAt", Matchers.is(account.getUpdatedAt().format(FORMATTER)));
     }

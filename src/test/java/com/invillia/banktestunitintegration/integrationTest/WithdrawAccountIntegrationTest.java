@@ -56,7 +56,7 @@ public class WithdrawAccountIntegrationTest {
     @Test
     void shouldithdrawInAccountWithSucessTest() {
 
-        Account account = accountFactory.create();
+        final Account account = accountFactory.create();
 
         WithdrawRequest withdrawRequest = new WithdrawRequest(500.00, 1L);
 
@@ -73,7 +73,7 @@ public class WithdrawAccountIntegrationTest {
                 .log().all()
                 .statusCode(SC_OK);
 
-        Account accountWithWithdraw = accountRepository.findById(1L).get();
+        final Account accountWithWithdraw = accountRepository.findById(1L).get();
 
         Assertions.assertAll("account assert",
                 () -> Assertions.assertEquals(balance, accountWithWithdraw.getBalance()));
@@ -83,7 +83,7 @@ public class WithdrawAccountIntegrationTest {
     @Test
     void shouldWithdrawInAccountWithoutLimitTest() {
 
-        Account account = accountFactory.create();
+        final Account account = accountFactory.create();
 
         WithdrawRequest withdrawRequest = new WithdrawRequest(2000.00, 1L);
 
@@ -99,7 +99,7 @@ public class WithdrawAccountIntegrationTest {
                 .statusCode(SC_INTERNAL_SERVER_ERROR)
                 .body("message", Matchers.is("Limite de R$ 200.0 excedido!"));
 
-        Account accountWithWithdraw = accountRepository.findById(1L).get();
+        final Account accountWithWithdraw = accountRepository.findById(1L).get();
 
         Assertions.assertAll("account assert",
                 () -> Assertions.assertEquals(account.getBalance(), accountWithWithdraw.getBalance()));
@@ -109,7 +109,7 @@ public class WithdrawAccountIntegrationTest {
     @Test
     void shouldWithdrawInAccountWithNegativeNumber() {
 
-        Account account = accountFactory.create();
+        final Account account = accountFactory.create();
 
         WithdrawRequest withdrawRequest = new WithdrawRequest(-200.00, 1L);
 
@@ -125,7 +125,7 @@ public class WithdrawAccountIntegrationTest {
                 .statusCode(SC_BAD_REQUEST)
                 .body("errors.defaultMessage[0]", Matchers.is("O valor deve ser maior que zero!"));
 
-        Account accountWithWithdraw = accountRepository.findById(1L).get();
+        final Account accountWithWithdraw = accountRepository.findById(1L).get();
 
         Assertions.assertAll("account assert",
                 () -> Assertions.assertEquals(account.getBalance(), accountWithWithdraw.getBalance()));

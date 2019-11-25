@@ -21,10 +21,7 @@ public class AccountResponse {
 
     private String accountTypeString;
 
-//    @ToString.Exclude
-//    private Customer customer;
-
-    private Long IdCustomer;
+    private Customer customer;
 
     private String createdAt;
 

@@ -62,12 +62,13 @@ public class AccountServiceImpl implements AccountService {
 
 
     public AccountResponse withdraw(WithdrawRequest withdrawRequest) {
+
         if (withdrawRequest.getWithdraw() > 00.00) {
 
             final Account account = accountRepository.findById(withdrawRequest.getIdAccount()).orElseThrow(() -> new AccountNotFoundException(
                     "Conta de ID " + withdrawRequest.getIdAccount() + " não encontrada!"));
 
-            if (!((account.getBalance() - withdrawRequest.getWithdraw()) < -1 * account.getLimitAccount())) {
+            if (checkAccountLimit(account, withdrawRequest)) {
                 account.setBalance(account.getBalance() - withdrawRequest.getWithdraw());
             } else {
                 throw new AccountLimitExceededException(
@@ -141,5 +142,10 @@ public class AccountServiceImpl implements AccountService {
         final Account accountSaved = accountRepository.save(account);
 
         return accountSaved.getId();
+    }
+
+
+    private boolean checkAccountLimit(Account account, WithdrawRequest withdrawRequest) {
+        return (-1 * account.getLimitAccount() < (account.getBalance() - withdrawRequest.getWithdraw()));
     }
 }

@@ -26,10 +26,7 @@ public class AccountMapper {
                 .balance(account.getBalance())
                 .limitAccount(account.getLimitAccount())
                 .accountTypeString(account.getAccountTypeEnum().toString())
-
                 .customer(account.getCustomer())
-//                .IdCustomer(account.getCustomer().getId())
-
                 .createdAt(account.getCreatedAt().format(formatter))
                 .updatedAt(account.getUpdatedAt().format(formatter))
                 .build();
@@ -56,6 +53,7 @@ public class AccountMapper {
             customer.setId(accountRequest.getIdCustomer());
             account.setCustomer(customer);
         }
+
 
         if (accountRequest.getAccountTypeString() != null && !accountRequest.getAccountTypeString().isBlank()) {
             try {

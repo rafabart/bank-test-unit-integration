@@ -15,12 +15,12 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class AccountRequest {
 
-    @Size(min = 6, max = 6, message = "Número da conta deve ter 6 caractéres")
+    @Size(min = 6, max = 6, message = "Número da conta deve ter 6 caracteres")
     @NotNull(message = "Número da conta não pode ser nulo!")
     @NotBlank(message = "Número da conta não pode estar em branco!")
     private String numberAccount;
 
-    @Size(min = 4, max = 4, message = "Agencia deve ter 4 caractéres")
+    @Size(min = 4, max = 4, message = "Agencia deve ter 4 caracteres")
     @NotNull(message = "Agencia não pode ser nulo!")
     @NotBlank(message = "Agencia não pode estar em branco!")
     private String agency;

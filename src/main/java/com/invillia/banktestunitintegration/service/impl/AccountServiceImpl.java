@@ -146,6 +146,6 @@ public class AccountServiceImpl implements AccountService {
 
 
     private boolean checkAccountLimit(Account account, WithdrawRequest withdrawRequest) {
-        return (-1 * account.getLimitAccount() < (account.getBalance() - withdrawRequest.getWithdraw()));
+        return (-1 * account.getLimitAccount() <= (account.getBalance() - withdrawRequest.getWithdraw()));
     }
 }

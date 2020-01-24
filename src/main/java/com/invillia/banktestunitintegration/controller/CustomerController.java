@@ -19,13 +19,13 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(final CustomerService customerService) {
         this.customerService = customerService;
     }
 
 
     @GetMapping
-    public ResponseEntity find(
+    public ResponseEntity<?> find(
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "cpf", required = false) String cpf
     ) {
@@ -40,22 +40,22 @@ public class CustomerController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity findById(@PathVariable final Long id) {
+    public ResponseEntity<?> findById(@PathVariable final Long id) {
         CustomerResponse customerResponse = customerService.findById(id);
         return ResponseEntity.ok(customerResponse);
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable final Long id) {
+    public ResponseEntity<?> delete(@PathVariable final Long id) {
         customerService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@Valid @PathVariable final Long id,
-                                 @Valid @RequestBody final CustomerRequest customerRequest) {
+    public ResponseEntity<?> update(@Valid @PathVariable final Long id,
+                                    @Valid @RequestBody final CustomerRequest customerRequest) {
 
         customerService.update(id, customerRequest);
         return ResponseEntity.noContent().build();
@@ -63,7 +63,7 @@ public class CustomerController {
 
 
     @PostMapping
-    public ResponseEntity save(@Valid @RequestBody final CustomerRequest customerRequest) {
+    public ResponseEntity<?> save(@Valid @RequestBody final CustomerRequest customerRequest) {
 
         Long idCustomer = customerService.save(customerRequest);
 

@@ -1,14 +1,13 @@
 package com.invillia.banktestunitintegration.service.impl;
 
 import com.invillia.banktestunitintegration.domain.Account;
+import com.invillia.banktestunitintegration.domain.Customer;
+import com.invillia.banktestunitintegration.domain.enums.AccountTypeEnum;
 import com.invillia.banktestunitintegration.domain.request.AccountRequest;
 import com.invillia.banktestunitintegration.domain.request.DepositRequest;
 import com.invillia.banktestunitintegration.domain.request.WithdrawRequest;
 import com.invillia.banktestunitintegration.domain.response.AccountResponse;
-import com.invillia.banktestunitintegration.exception.AccountLimitExceededException;
-import com.invillia.banktestunitintegration.exception.AccountNotFoundException;
-import com.invillia.banktestunitintegration.exception.CustomerNotFoundException;
-import com.invillia.banktestunitintegration.exception.NotPositiveNumberException;
+import com.invillia.banktestunitintegration.exception.*;
 import com.invillia.banktestunitintegration.mapper.AccountMapper;
 import com.invillia.banktestunitintegration.repository.AccountRepository;
 import com.invillia.banktestunitintegration.repository.CustomerRepository;
@@ -44,44 +43,45 @@ public class AccountServiceImpl implements AccountService {
 
         if (depositRequest.getDeposit() > 00.00) {
 
-            final Account account = accountRepository.findById(depositRequest.getIdAccount()).orElseThrow(() -> new AccountNotFoundException(
-                    "Conta de ID " + depositRequest.getIdAccount() + " não encontrada!"));
+            final Account account = accountRepository.findById(depositRequest.getIdAccount()).orElseThrow(
+                    () -> new AccountNotFoundException(depositRequest.getIdAccount())
+            );
 
             account.setBalance(account.getBalance() + depositRequest.getDeposit());
 
             final Account accountSaved = accountRepository.save(account);
 
-            //Retorno usado no teste unitário
             return accountMapper.accountToAccountResponse(accountSaved);
 
         } else {
-            throw new NotPositiveNumberException("O Valor do deposito deve ser positivo!");
+            throw new NotPositiveNumberException();
         }
 
     }
 
 
-    public AccountResponse withdraw(WithdrawRequest withdrawRequest) {
+    public AccountResponse withdraw(final WithdrawRequest withdrawRequest) {
 
         if (withdrawRequest.getWithdraw() > 00.00) {
 
-            final Account account = accountRepository.findById(withdrawRequest.getIdAccount()).orElseThrow(() -> new AccountNotFoundException(
-                    "Conta de ID " + withdrawRequest.getIdAccount() + " não encontrada!"));
+            final Account account = accountRepository.findById(withdrawRequest.getIdAccount()).orElseThrow(
+                    () -> new AccountNotFoundException(withdrawRequest.getIdAccount())
+            );
 
             if (checkAccountLimit(account, withdrawRequest)) {
+
                 account.setBalance(account.getBalance() - withdrawRequest.getWithdraw());
+
             } else {
-                throw new AccountLimitExceededException(
-                        "Limite de R$ " + account.getLimitAccount() + " excedido!");
+                throw new AccountLimitExceededException(account.getLimitAccount());
             }
 
             final Account accountSaved = accountRepository.save(account);
 
-            //Retorno usado no teste unitário
             return accountMapper.accountToAccountResponse(accountSaved);
 
         } else {
-            throw new NotPositiveNumberException("O Valor do saque deve ser positivo!");
+            throw new NotPositiveNumberException();
         }
     }
 
@@ -89,12 +89,30 @@ public class AccountServiceImpl implements AccountService {
     @Transactional(readOnly = true)
     public List<AccountResponse> find(final AccountRequest accountRequestFilter) {
 
-        Account accountFilter = accountMapper.accountRequestToAccount(accountRequestFilter);
+        Customer customer = new Customer();
+
+        if (accountRequestFilter.getIdCustomer() != null) {
+
+            customer = customerRepository.findById(accountRequestFilter.getIdCustomer()).orElseThrow(
+                    () -> new CustomerNotFoundException(accountRequestFilter.getIdCustomer())
+            );
+        }
+
+        if (!accountRequestFilter.getAccountTypeString().isBlank()) {
+            try {
+                AccountTypeEnum.valueOf(accountRequestFilter.getAccountTypeString());
+            } catch (Exception e) {
+                throw new AccountTypeNotFoundException(accountRequestFilter.getAccountTypeString());
+            }
+        }
+
+        Account accountFilter = accountMapper.accountRequestToAccount(accountRequestFilter, customer);
 
         final Example exampleAccount = Example.of(accountFilter,
                 ExampleMatcher.matching()
                         .withIgnoreCase()
                         .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING));
+
         final List<Account> accounts = accountRepository.findAll(exampleAccount);
 
         return accountMapper.accountToAccountResponse(accounts);
@@ -103,8 +121,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional(readOnly = true)
     public AccountResponse findById(final Long id) {
-        final Account account = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(
-                "Conta de ID " + id + " não encontrada!"));
+
+        final Account account = accountRepository.findById(id).orElseThrow(
+                () -> new AccountNotFoundException(id)
+        );
 
         return accountMapper.accountToAccountResponse(account);
     }
@@ -112,21 +132,25 @@ public class AccountServiceImpl implements AccountService {
 
     public void update(final Long id, final AccountRequest accountRequest) {
 
-        final Account account = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(
-                "Conta de ID " + id + " não encontrada!"));
+        final Account account = accountRepository.findById(id).orElseThrow(
+                () -> new AccountNotFoundException(id)
+        );
+
+        if (accountRequest.getAccountTypeString() == null || accountRequest.getAccountTypeString().isBlank()) {
+            throw new AccountTypeNotFoundException(accountRequest.getAccountTypeString());
+        }
 
         accountMapper.updateAccountByAccountRequest(account, accountRequest);
-
-        account.setCustomer(customerRepository.findById(accountRequest.getIdCustomer()).orElseThrow(
-                () -> new CustomerNotFoundException("Pessoa de ID não encontrada!")));
 
         accountRepository.save(account);
     }
 
 
     public void delete(final Long id) {
-        final Account account = accountRepository.findById(id).orElseThrow(() -> new AccountNotFoundException(
-                "Pessoa de ID " + id + " não encontrada!"));
+
+        final Account account = accountRepository.findById(id).orElseThrow(
+                () -> new AccountNotFoundException(id)
+        );
 
         accountRepository.delete(account);
     }
@@ -134,10 +158,17 @@ public class AccountServiceImpl implements AccountService {
 
     public Long save(final AccountRequest accountRequest) {
 
-        final Account account = accountMapper.accountRequestToAccount(accountRequest);
+        final Customer customer = customerRepository.findById(accountRequest.getIdCustomer()).orElseThrow(
+                () -> new CustomerNotFoundException(accountRequest.getIdCustomer())
+        );
 
-        account.setCustomer(customerRepository.findById(accountRequest.getIdCustomer()).orElseThrow(
-                () -> new CustomerNotFoundException("Pessoa de ID não encontrada!")));
+        try {
+            AccountTypeEnum.valueOf(accountRequest.getAccountTypeString());
+        } catch (Exception e) {
+            throw new AccountTypeNotFoundException(accountRequest.getAccountTypeString());
+        }
+
+        final Account account = accountMapper.accountRequestToAccount(accountRequest, customer);
 
         final Account accountSaved = accountRepository.save(account);
 
@@ -145,7 +176,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    private boolean checkAccountLimit(Account account, WithdrawRequest withdrawRequest) {
+    private boolean checkAccountLimit(final Account account, final WithdrawRequest withdrawRequest) {
+
         return (-1 * account.getLimitAccount() <= (account.getBalance() - withdrawRequest.getWithdraw()));
     }
 }

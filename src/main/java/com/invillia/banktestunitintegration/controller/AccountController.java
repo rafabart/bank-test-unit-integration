@@ -22,13 +22,13 @@ public class AccountController {
     private final AccountService accountService;
 
     @Autowired
-    public AccountController(AccountService accountService) {
+    public AccountController(final AccountService accountService) {
         this.accountService = accountService;
     }
 
 
     @PostMapping("/withdraw")
-    public ResponseEntity withdraw(@Valid @RequestBody final WithdrawRequest withdrawRequest) {
+    public ResponseEntity<?> withdraw(@Valid @RequestBody final WithdrawRequest withdrawRequest) {
 
         accountService.withdraw(withdrawRequest);
         return ResponseEntity.ok().build();
@@ -36,7 +36,7 @@ public class AccountController {
 
 
     @PostMapping("/deposit")
-    public ResponseEntity deposit(@Valid @RequestBody final DepositRequest depositRequest) {
+    public ResponseEntity<?> deposit(@Valid @RequestBody final DepositRequest depositRequest) {
 
         accountService.deposit(depositRequest);
         return ResponseEntity.ok().build();
@@ -44,7 +44,7 @@ public class AccountController {
 
 
     @GetMapping
-    public ResponseEntity find(
+    public ResponseEntity<?> find(
             @RequestParam(value = "numberAccount", required = false) String numberAccount,
             @RequestParam(value = "agency", required = false) String agency,
             @RequestParam(value = "balance", required = false) Double balance,
@@ -61,27 +61,28 @@ public class AccountController {
         accountRequestFilter.setIdCustomer(idCustomer);
 
         List<AccountResponse> accountResponseList = accountService.find(accountRequestFilter);
+
         return ResponseEntity.ok(accountResponseList);
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity findById(@PathVariable final Long id) {
+    public ResponseEntity<?> findById(@PathVariable final Long id) {
         AccountResponse accountResponse = accountService.findById(id);
         return ResponseEntity.ok(accountResponse);
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable final Long id) {
+    public ResponseEntity<?> delete(@PathVariable final Long id) {
         accountService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@Valid @PathVariable final Long id,
-                                 @Valid @RequestBody final AccountRequest accountRequest) {
+    public ResponseEntity<?> update(@Valid @PathVariable final Long id,
+                                    @Valid @RequestBody final AccountRequest accountRequest) {
 
         accountService.update(id, accountRequest);
         return ResponseEntity.noContent().build();
@@ -89,7 +90,7 @@ public class AccountController {
 
 
     @PostMapping
-    public ResponseEntity save(@Valid @RequestBody final AccountRequest accountRequest) {
+    public ResponseEntity<?> save(@Valid @RequestBody final AccountRequest accountRequest) {
 
         Long idAccount = accountService.save(accountRequest);
 

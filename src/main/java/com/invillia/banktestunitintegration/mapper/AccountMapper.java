@@ -6,6 +6,7 @@ import com.invillia.banktestunitintegration.domain.enums.AccountTypeEnum;
 import com.invillia.banktestunitintegration.domain.request.AccountRequest;
 import com.invillia.banktestunitintegration.domain.response.AccountResponse;
 import com.invillia.banktestunitintegration.exception.AccountNotFoundException;
+import com.invillia.banktestunitintegration.exception.AccountTypeNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
@@ -32,6 +33,7 @@ public class AccountMapper {
                 .build();
     }
 
+
     public List<AccountResponse> accountToAccountResponse(final List<Account> accounts) {
 
         return accounts.stream()
@@ -39,34 +41,25 @@ public class AccountMapper {
                 .collect(Collectors.toList());
     }
 
-    public Account accountRequestToAccount(final AccountRequest accountRequest) {
 
-        Account account = new Account();
+    public Account accountRequestToAccount(final AccountRequest accountRequest, final Customer customer) {
 
-        account.setNumberAccount(accountRequest.getNumberAccount());
-        account.setAgency(accountRequest.getAgency());
-        account.setBalance(accountRequest.getBalance());
-        account.setLimitAccount(accountRequest.getLimitAccount());
-
-        if (accountRequest.getIdCustomer() != null) {
-            Customer customer = new Customer();
-            customer.setId(accountRequest.getIdCustomer());
-            account.setCustomer(customer);
-        }
-
-
-        if (accountRequest.getAccountTypeString() != null && !accountRequest.getAccountTypeString().isBlank()) {
-            try {
-                account.setAccountTypeEnum(AccountTypeEnum.valueOf(accountRequest.getAccountTypeString()));
-            } catch (Exception e) {
-                throw new AccountNotFoundException("Tipo de conta não cadastrado: " + e.getMessage());
-            }
-        }
-        return account;
+        return Account.builder()
+                .numberAccount(accountRequest.getNumberAccount())
+                .agency(accountRequest.getAgency())
+                .balance(accountRequest.getBalance())
+                .limitAccount(accountRequest.getLimitAccount())
+                .customer(customer)
+                .accountTypeEnum(
+                        accountRequest.getAccountTypeString().isBlank() ? null : AccountTypeEnum.valueOf(
+                                accountRequest.getAccountTypeString()
+                        )
+                )
+                .build();
     }
 
 
-    public void updateAccountByAccountRequest(final Account account, final AccountRequest accountRequest) {
+    public void updateAccountByAccountRequest(Account account, final AccountRequest accountRequest) {
 
         account.setNumberAccount(accountRequest.getNumberAccount());
         account.setAgency(accountRequest.getAgency());

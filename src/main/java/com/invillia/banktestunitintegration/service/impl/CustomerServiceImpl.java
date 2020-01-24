@@ -27,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerMapper customerMapper;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, AccountRepository accountRepository, CustomerMapper customerMapper) {
+    public CustomerServiceImpl(final CustomerRepository customerRepository, final AccountRepository accountRepository, final CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
         this.accountRepository = accountRepository;
         this.customerMapper = customerMapper;
@@ -52,8 +52,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Transactional(readOnly = true)
     public CustomerResponse findById(final Long id) {
-        final Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(
-                "Pessoa de ID " + id + " não encontrada!"));
+
+        final Customer customer = customerRepository.findById(id).orElseThrow(
+                () -> new CustomerNotFoundException(id)
+        );
 
         return customerMapper.customerToCustomerResponse(customer);
     }
@@ -61,8 +63,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     public void update(final Long id, final CustomerRequest customerRequest) {
 
-        final Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(
-                "Pessoa de ID " + id + " não encontrada!"));
+        final Customer customer = customerRepository.findById(id).orElseThrow(
+                () -> new CustomerNotFoundException(id)
+        );
 
         customerMapper.updateCustomerByCustomerRequest(customer, customerRequest);
 
@@ -71,8 +74,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     public void delete(final Long id) {
-        final Customer customer = customerRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException(
-                "Pessoa de ID " + id + " não encontrada!"));
+
+        final Customer customer = customerRepository.findById(id).orElseThrow(
+                () -> new CustomerNotFoundException(id)
+        );
 
         customerRepository.delete(customer);
     }

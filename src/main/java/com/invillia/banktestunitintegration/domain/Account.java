@@ -10,6 +10,7 @@ import javax.validation.constraints.PositiveOrZero;
 
 @Data
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)

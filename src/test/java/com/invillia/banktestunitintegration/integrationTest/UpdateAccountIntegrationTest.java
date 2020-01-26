@@ -55,7 +55,7 @@ public class UpdateAccountIntegrationTest {
         Assertions.assertAll("account assert",
                 () -> Assertions.assertEquals(accountRequest.getAgency(), account.getAgency()),
                 () -> Assertions.assertEquals(accountRequest.getNumberAccount(), account.getNumberAccount()),
-                () -> Assertions.assertEquals(accountRequest.getIdCustomer(), account.getCustomer().getId()),
+                () -> Assertions.assertEquals(accountRequest.getLimitAccount(), account.getLimitAccount()),
                 () -> Assertions.assertEquals(accountRequest.getAccountTypeString(), account.getAccountTypeEnum().toString()));
     }
 }

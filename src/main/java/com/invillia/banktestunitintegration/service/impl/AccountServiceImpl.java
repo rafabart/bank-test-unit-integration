@@ -98,11 +98,14 @@ public class AccountServiceImpl implements AccountService {
             );
         }
 
-        if (!accountRequestFilter.getAccountTypeString().isBlank()) {
-            try {
-                AccountTypeEnum.valueOf(accountRequestFilter.getAccountTypeString());
-            } catch (Exception e) {
-                throw new AccountTypeNotFoundException(accountRequestFilter.getAccountTypeString());
+        if (accountRequestFilter.getAccountTypeString() != null) {
+            if (!accountRequestFilter.getAccountTypeString().isBlank()) {
+
+                try {
+                    AccountTypeEnum.valueOf(accountRequestFilter.getAccountTypeString());
+                } catch (Exception e) {
+                    throw new AccountTypeNotFoundException(accountRequestFilter.getAccountTypeString());
+                }
             }
         }
 

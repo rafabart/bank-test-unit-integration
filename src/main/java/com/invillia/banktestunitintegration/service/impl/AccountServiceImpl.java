@@ -98,17 +98,6 @@ public class AccountServiceImpl implements AccountService {
             );
         }
 
-        if (accountRequestFilter.getAccountTypeString() != null) {
-            if (!accountRequestFilter.getAccountTypeString().isBlank()) {
-
-                try {
-                    AccountTypeEnum.valueOf(accountRequestFilter.getAccountTypeString());
-                } catch (Exception e) {
-                    throw new AccountTypeNotFoundException(accountRequestFilter.getAccountTypeString());
-                }
-            }
-        }
-
         Account accountFilter = accountMapper.accountRequestToAccount(accountRequestFilter, customer);
 
         final Example exampleAccount = Example.of(accountFilter,
@@ -139,10 +128,6 @@ public class AccountServiceImpl implements AccountService {
                 () -> new AccountNotFoundException(id)
         );
 
-        if (accountRequest.getAccountTypeString() == null || accountRequest.getAccountTypeString().isBlank()) {
-            throw new AccountTypeNotFoundException(accountRequest.getAccountTypeString());
-        }
-
         accountMapper.updateAccountByAccountRequest(account, accountRequest);
 
         accountRepository.save(account);
@@ -164,12 +149,6 @@ public class AccountServiceImpl implements AccountService {
         final Customer customer = customerRepository.findById(accountRequest.getIdCustomer()).orElseThrow(
                 () -> new CustomerNotFoundException(accountRequest.getIdCustomer())
         );
-
-        try {
-            AccountTypeEnum.valueOf(accountRequest.getAccountTypeString());
-        } catch (Exception e) {
-            throw new AccountTypeNotFoundException(accountRequest.getAccountTypeString());
-        }
 
         final Account account = accountMapper.accountRequestToAccount(accountRequest, customer);
 

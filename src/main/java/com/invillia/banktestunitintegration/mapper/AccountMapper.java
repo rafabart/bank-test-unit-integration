@@ -44,19 +44,14 @@ public class AccountMapper {
 
     public Account accountRequestToAccount(final AccountRequest accountRequest, final Customer customer) {
 
-        Account account = Account.builder()
+        return Account.builder()
                 .numberAccount(accountRequest.getNumberAccount())
                 .agency(accountRequest.getAgency())
                 .balance(accountRequest.getBalance())
                 .limitAccount(accountRequest.getLimitAccount())
                 .customer(customer)
+                .accountTypeEnum(AccountTypeEnum.toEnum(accountRequest.getAccountTypeString()))
                 .build();
-
-        if (accountRequest.getAccountTypeString() != null) {
-            account.setAccountTypeEnum(AccountTypeEnum.valueOf(accountRequest.getAccountTypeString()));
-        }
-
-        return account;
     }
 
 
@@ -66,6 +61,6 @@ public class AccountMapper {
         account.setAgency(accountRequest.getAgency());
         account.setBalance(accountRequest.getBalance());
         account.setLimitAccount(accountRequest.getLimitAccount());
-        account.setAccountTypeEnum(AccountTypeEnum.valueOf(accountRequest.getAccountTypeString()));
+        account.setAccountTypeEnum(AccountTypeEnum.toEnum(accountRequest.getAccountTypeString()));
     }
 }

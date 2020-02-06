@@ -1,0 +1,33 @@
+version: "3.5"
+services:
+
+  db:
+    container_name: mysql-container
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=12qwaszx
+    ports:
+      - 3306:3306
+
+  backend:
+    container_name: back-spring-container
+    image: back-bank:1.0
+    # environment:
+    #   - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/myapp?useUnicode=true&characterEncoding=utf8&useSSL=false
+    restart: on-failure
+    links: 
+      - db
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+    
+  frontend:
+    container_name: front-react-container
+    image: front-bank:1.0  
+    links: 
+      - backend
+    depends_on:
+      - backend
+    ports:
+     - 80:80

@@ -11,8 +11,8 @@ import java.util.List;
 @Data
 @Entity
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class Customer extends IdAbstract<Long> {
 
